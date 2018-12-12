@@ -8,22 +8,29 @@ float distance(float a, float b){
 	return a - b;
 };
 
-void swap(float *xp, float *yp) 
+void swapfloat(float *xp, float *yp) 
 { 
     float temp = *xp; 
     *xp = *yp; 
     *yp = temp; 
 }; 
+
+void swapint(int *xp, int *yp) 
+{ 
+    int temp = *xp; 
+    *xp = *yp; 
+    *yp = temp; 
+}; 
   
-// A function to implement bubble sort 
-void bubbleSort(float point, float *arr, int n) { 
+void bubbleSortKeepLabelOrder(float point, float arr[], int labels[], int n) { 
    int i, j; 
    for (i = 0; i < n-1; i++){      
   
        // Last i elements are already in place    
        for (j = 0; j < n-i-1; j++){  
-           if (distance(point, arr[j]) > distance(point, arr[j+1])){ 
-              swap(&arr[j], &arr[j+1]); 
+           if (distance(point, arr[j]) < distance(point, arr[j + 1])){ 
+           	  swapint(&labels[j], &labels[j + 1]);
+              swapfloat(&arr[j], &arr[j + 1]); 
           	}
         }
     }
@@ -84,19 +91,21 @@ int predict(float X, int k){
 		printf("k was set to %d automatically\n", k);
 	};
 
-	// Sort dataset by euclidian distance to X
-	bubbleSort(X, data, dataset_len);
-	printf("%d", data[0]);
+	bubbleSortKeepLabelOrder(X, data, labels, dataset_len);
+	
+	for(int i; i <= k; i++){
+		printf("%d, ", labels[i]);
+	}
 
 };
 
 void main(){
 	printf("knn ML\n");
 
-	float points[5] = {1.0, 2.0, 10.0, 11.0, 20.0};
-	int labels[5] = {1, 1, 2, 2, 3};
+	int labels[8] 	= {1, 1, 2, 2, 3, 4, 4, 5};
+	float points[8] = {1.0, 2.0, 10.0, 11.0, 20.0, 100.0, 102.1, 145.1};
 
-	fit(points, labels, 5);
+	fit(points, labels, 8);
 
-	predict(1.5, 0);
+	predict(1.8, 3);
 }
