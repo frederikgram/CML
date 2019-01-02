@@ -25,7 +25,7 @@ void swapint(int *xp, int *yp)
 void bubbleSortKeepLabelOrder(float point, float arr[], int labels[], int n) { 
    int i, j; 
    for (i = 0; i < n-1; i++){      
-  
+  	
        // Last i elements are already in place    
        for (j = 0; j < n-i-1; j++){  
            if (distance(point, arr[j]) < distance(point, arr[j + 1])){ 
@@ -43,8 +43,8 @@ int *labels;
 int dataset_len = 0;
 
 int count_uniques(float arr[]){
-	int k = 0; 
 
+	int k = 0; 
 	int *unique_labels = malloc(dataset_len); 
 
 	for(int i; i < dataset_len; i++){
@@ -71,6 +71,7 @@ int count_uniques(float arr[]){
 	return k;
 };
 
+
 void fit(float *_data, int *_labels, int _len){
 	// Sets global dataset
 	data = malloc(_len);
@@ -92,20 +93,23 @@ int predict(float X, int k){
 	};
 
 	bubbleSortKeepLabelOrder(X, data, labels, dataset_len);
-	
+
 	for(int i; i <= k; i++){
-		printf("%d, ", labels[i]);
+		printf("label: %d, ", labels[i-1]);
 	}
 
 };
 
 void main(){
-	printf("knn ML\n");
+	printf("knn ML model\n");
 
-	int labels[8] 	= {1, 1, 2, 2, 3, 4, 4, 5};
 	float points[8] = {1.0, 2.0, 10.0, 11.0, 20.0, 100.0, 102.1, 145.1};
+	int labels[8] 	= {1, 1, 2, 2, 3, 4, 4, 5};
 
 	fit(points, labels, 8);
 
 	predict(1.8, 3);
+
+	// TODO Count occurences in list of predictions and map unscramble
+	// the labels to fit them to the original input order 
 }
